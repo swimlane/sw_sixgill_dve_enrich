@@ -1,4 +1,4 @@
-from sw_sixgill_dve_enrich import SixgillAPIRequests, SwimlaneDVEEnrichFields
+from sw_cybersixgill_dve_enrich import SixgillAPIRequests, SwimlaneDVEEnrichFields
 
 
 class SwMain(SixgillAPIRequests):
@@ -50,56 +50,57 @@ class SwMain(SixgillAPIRequests):
         sixgill_highest_date = sixgill_score_info.get('highest', {}).get('date', '')
         sixgill_highest_score = sixgill_score_info.get('highest', {}).get('value', '')
         sixgill_previously_exploited = sixgill_score_info.get('previouslyExploited', '')
-        raw_response = SwimlaneDVEEnrichFields(created=dve_feed.get('created', ),
-                                               description=dve_feed.get('description', ''),
-                                               external_references=str(dve_feed.get('external_references', {})),
-                                               sixgill_id=dve_feed.get('id', ''),
-                                               last_activity_date=dve_feed.get('last_activity_date', ''),
-                                               dve_name=dve_feed.get('name', ''),
-                                               dve_type=dve_feed.get('type', ''),
-                                               attribute_metasploit=metasploit_attribute,
-                                               attribute_trend_underground=trend_underground_attribute,
-                                               attribute_scanned_by_anonymous=scanned_by_anonymous_attribute,
-                                               attribute_trend_chinese=trend_chinese_attribute,
-                                               attribute_poc_exploit=poc_exploit_attribute,
-                                               attribute_exploit_kit=exploit_kit_attribute,
-                                               attribute_trend_russian=trend_russian_attribute,
-                                               attribute_trend_arabic=trend_arabic_attribute,
-                                               attribute_trend_farsi=trend_farsi_attribute,
-                                               attribute_trend_github_general=trend_github_general_attribute,
-                                               attribute_trend_twitter=trend_twitter_attribute,
-                                               github_activity_first_date=github_first_date,
-                                               github_activity_last_date=github_last_date,
-                                               github_projects=github_projects,
-                                               github_forks=github_forks,
-                                               github_projects_count=github_projects_count,
-                                               github_watchers=github_watchers,
-                                               sixgill_first_mention=sixgill_first_mention,
-                                               sixgill_last_mention=sixgill_last_mention,
-                                               sixgill_mentions_total=sixgill_mentions_total,
-                                               nvd_configurations=nvd_config,
-                                               nvd_link=nvd_link,
-                                               nvd_modified=nvd_modified,
-                                               nvd_published=nvd_published,
-                                               nvd_v2_info=nvd_v2,
-                                               nvd_v3_info=nvd_v3,
-                                               sixgill_current_score=sixgill_score_current,
-                                               sixgill_highest_score=sixgill_highest_score,
-                                               sixgill_highest_date=sixgill_highest_date,
-                                               sixgill_previously_exploited=sixgill_previously_exploited).__dict__
+        raw_response = SwimlaneDVEEnrichFields(
+            cve_name=dve_feed.get('name', ''),
+            cve_type=dve_feed.get('type', ''),
+            created=dve_feed.get('created', ),
+            last_activity_date=dve_feed.get('last_activity_date', ''),
+            description=dve_feed.get('description', ''),
+            cybersixgill_current_score=sixgill_score_current,
+            cybersixgill_highest_score=sixgill_highest_score,
+            cybersixgill_highest_date=sixgill_highest_date,
+            cybersixgill_previously_exploited=sixgill_previously_exploited,
+            cybersixgill_first_mention=sixgill_first_mention,
+            cybersixgill_last_mention=sixgill_last_mention,
+            cybersixgill_mentions_total=sixgill_mentions_total,
+            attribute_metasploit=metasploit_attribute,
+            attribute_trend_underground=trend_underground_attribute,
+            attribute_scanned_by_anonymous=scanned_by_anonymous_attribute,
+            attribute_trend_chinese=trend_chinese_attribute,
+            attribute_poc_exploit=poc_exploit_attribute,
+            attribute_exploit_kit=exploit_kit_attribute,
+            attribute_trend_russian=trend_russian_attribute,
+            attribute_trend_arabic=trend_arabic_attribute,
+            attribute_trend_farsi=trend_farsi_attribute,
+            attribute_trend_github_general=trend_github_general_attribute,
+            attribute_trend_twitter=trend_twitter_attribute,
+            github_activity_first_date=github_first_date,
+            github_activity_last_date=github_last_date,
+            github_projects_count=github_projects_count,
+            github_forks=github_forks,
+            github_watchers=github_watchers,
+            github_projects=github_projects,
+            nvd_configurations=nvd_config,
+            nvd_link=nvd_link,
+            nvd_modified=nvd_modified,
+            nvd_published=nvd_published,
+            nvd_v2_info=nvd_v2,
+            nvd_v3_info=nvd_v3,
+            external_references_source_name=dve_feed.get("external_references", [])[0].get("source_name", '')).__dict__
+
         return raw_response
 
-    def list_to_dict(self, obj_list):
+    @staticmethod
+    def list_to_dict(obj_list):
         out_dict = {}
         for idx, each_item in enumerate(obj_list):
             out_dict[idx] = each_item
         return out_dict
 
-    def get_attr_value(self, sixgill_attributes, attr_name):
+    @staticmethod
+    def get_attr_value(sixgill_attributes, attr_name):
         attrs_list = [str(attr.get('value', '')) for attr in sixgill_attributes
                       if attr.get('name', '') == attr_name]
         if len(attrs_list) != 0:
             return attrs_list[0]
         return ''
-
-

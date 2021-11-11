@@ -1,4 +1,4 @@
-from sw_sixgill_dve_enrich import SixgillDveEnrichBaseClass
+from sw_cybersixgill_dve_enrich import SixgillDveEnrichBaseClass
 
 
 class SwMain(SixgillDveEnrichBaseClass):
