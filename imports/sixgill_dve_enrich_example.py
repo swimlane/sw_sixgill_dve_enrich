@@ -3,9 +3,6 @@ from sw_cybersixgill_dve_enrich import SixgillAPIRequests, SwimlaneDVEEnrichFiel
 
 class SwMain(SixgillAPIRequests):
 
-    def __init__(self, context):
-        super(SwMain, self).__init__(context)
-
     def execute(self):
         response = self.dve_enrich()
         parsed_response = self.parse_dve_data(response)
@@ -74,8 +71,8 @@ class SwMain(SixgillAPIRequests):
             attribute_trend_farsi=trend_farsi_attribute,
             attribute_trend_github_general=trend_github_general_attribute,
             attribute_trend_twitter=trend_twitter_attribute,
-            github_activity_first_date=github_first_date,
-            github_activity_last_date=github_last_date,
+            github_activity_first_date= '' if github_first_date=='N/A' else github_first_date,
+            github_activity_last_date='' if github_last_date=='N/A' else github_last_date,
             github_projects_count=github_projects_count,
             github_forks=github_forks,
             github_watchers=github_watchers,
