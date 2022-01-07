@@ -3,7 +3,7 @@ from sixgill.sixgill_feed_client import SixgillBaseClient
 import requests
 
 
-class SixgillDveEnrichBaseClass(object):
+class SixgillDveEnrichBaseClass:
     def __init__(self, context):
         self.client_id = context.asset.get('client_id', '')
         self.client_secret = context.asset.get('client_secret', '')
@@ -82,6 +82,3 @@ class SwimlaneDVEEnrichFields:
         self.nvd_v2_info = nvd_v2_info
         self.nvd_v3_info = nvd_v3_info
         self.external_references_source_name = external_references_source_name
-
-
-
